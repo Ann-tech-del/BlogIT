@@ -7,10 +7,14 @@ export interface UserPayLoad {
   isDeleted: Boolean;
 }
 
+import { File as MulterFile } from 'multer';
+
 declare global {
   namespace Express {
     interface Request {
       user: UserPayLoad;
+      file?: MulterFile;
+      files?: MulterFile[];
     }
   }
 }

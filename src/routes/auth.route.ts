@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { verifyUserInformation, checkUserNameAndPasswordReuse, verifyPasswordStrength } from "../middleware/verifyUserInformation";
-import {  registerUser ,logInUser} from "../controller/auth.controller";
+import { registerUser, logInUser, logoutUser, getUserProfile, updateUserProfile, updatePassword } from "../controller/auth.controller";
+import verifyUser from "../middleware/verifyUser";
 
 const authRouter = Router()
 
@@ -11,7 +12,12 @@ authRouter.post(
   verifyPasswordStrength,
   registerUser
 );
- authRouter.post("/login", logInUser)
+authRouter.post("/login", logInUser)
+authRouter.post("/logout", verifyUser, logoutUser)
 
 
-export default authRouter
+authRouter.get("/profile", verifyUser, getUserProfile)
+authRouter.put("/profile", verifyUser, updateUserProfile)
+authRouter.put("/password", verifyUser, updatePassword)
+
+export default authRouter;
